@@ -475,8 +475,11 @@ public class Client {
           "Puffer: "
               + ""  //
               + " aktuelle Nr. / Summe empf.: "
+              + rs.latestSequenceNumber
               + " / "
-              + "");
+              + rs.receivedPackets
+              + " Ratio: "
+              + rs.latestSequenceNumber/rs.receivedPackets);
       statsLabel.setText(
           "<html>Abspielzähler / verlorene Medienpakete // Bilder / verloren: "
               + ""
@@ -486,11 +489,11 @@ public class Client {
               + "</html>");
       fecLabel.setText(
           "FEC: korrigiert / nicht korrigiert: "
-              + ""
+              + rs.correctedPackets
               + " / "
-              + ""
+              + rs.notCorrectedPackets
               + "  Ratio: "
-              + "");
+              + ""); //rs.correctedPackets/rs.notCorrectedPackets
     }
   }
 

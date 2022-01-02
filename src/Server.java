@@ -380,7 +380,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
     if (fec) label = " fec ";
     else label = " media ";
     // TASK correct the if-instruction to work properly
-    if (random.nextDouble() > 0.0) {
+    if (random.nextDouble() > lossRate) {
       logger.log(Level.FINE, "Send frame: " + imagenb + label);
       RTPsocket.send(senddp);
     } else {
@@ -437,7 +437,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
         //String[] tok = dir.split(".+?/(?=[^/]+$)");
         String[] tok = dir.split("/");
         //VideoFileName = VideoDir + tok[1];
-//        FIXME: what????
+//        FIXME: what???
 //        VideoFileName = VideoDir + tok[3];
         VideoFileName = VideoDir + tok[0];
         logger.log(Level.CONFIG, "File: " + VideoFileName);
