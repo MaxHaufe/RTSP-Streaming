@@ -437,7 +437,9 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
         //String[] tok = dir.split(".+?/(?=[^/]+$)");
         String[] tok = dir.split("/");
         //VideoFileName = VideoDir + tok[1];
-        VideoFileName = VideoDir + tok[3];
+//        FIXME: what????
+//        VideoFileName = VideoDir + tok[3];
+        VideoFileName = VideoDir + tok[0];
         logger.log(Level.CONFIG, "File: " + VideoFileName);
       }
 
@@ -517,7 +519,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
    */
   //TASK Complete the OPTIONS response
   private String options() {
-    return "....";
+    return "Public: DESCRIBE, SETUP, TEARDOWN, PLAY, PAUSE";
   }
 
 
@@ -530,13 +532,13 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
 
     // Write the body first so we can get the size later
     rtspBody.write("v=0" + CRLF);
-    rtspBody.write("...");
-    rtspBody.write("...");
-    rtspBody.write("...");
+    rtspBody.write("m=video " + RTP_dest_port + " RTP/AVP " + MJPEG_TYPE + CRLF);
+    rtspBody.write("a=control:streamid=" + RTSP_ID + CRLF);
+    rtspBody.write("a=mimetype:string;\"video/MJPEG\"" + CRLF);
 
-    rtspHeader.write("Content-Base: " + "");
-    rtspHeader.write("Content-Type: " + "");
-    rtspHeader.write("Content-Length: " + "");
+    rtspHeader.write("Content-Base: " + VideoFileName + CRLF);
+    rtspHeader.write("Content-Type: " + "application/sdp" + CRLF);
+    rtspHeader.write("Content-Length: " + rtspBody.toString().length() + CRLF);
     rtspHeader.write(CRLF);
 
     return rtspHeader.toString() + rtspBody.toString();

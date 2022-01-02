@@ -508,7 +508,6 @@ public class Client {
     try {
       // parse the whole reply
       ArrayList<String> respLines = new ArrayList<>();
-
       String line;
       do {
         line = RTSPBufferedReader.readLine();
@@ -611,23 +610,26 @@ public class Client {
 
       String rtspReq = "";
       //TASK Complete the RTSP request method line
-//      ?????????
-//       rtspReq = ;
+       rtspReq = request_type + " " + VideoFileName + " RTSP/1.0" + CRLF;
 
       // TASK write the CSeq line:
-       rtspReq += "Cseq: " + RTSPSeqNb;
+       rtspReq += "Cseq: " + RTSPSeqNb + CRLF;
 
       // check if request_type is equal to "SETUP" and in this case write the Transport: line
       // advertising to the server the port used to receive the RTP packets RTP_RCV_PORT
       // otherwise, write the Session line from the RTSPid field
       if (request_type.equals("SETUP")) {
         //TASK Complete the Transport Attribute
-        rtspReq += "Transport:rtp/udp;";
-        rtspReq += "compression;";
-        rtspReq += "port=" + RTP_RCV_PORT;
-        rtspReq += "mode=PLAY";
-
+        rtspReq += "Transport: RTP/UDP; client_port=" + RTP_RCV_PORT + CRLF;
       }
+//      // FIXME: idk this might be wrong
+//      else if (request_type.equals("DESCRIBE")) {
+//        RTSPBufferedWriter.write("Accept: application/sdp" + CRLF);
+//      }
+//      else {
+//        //otherwise, write the Session line from the RTSPid field
+//        RTSPBufferedWriter.write("Session: " + RTSPid + CRLF);
+//      }
 
       // SessionIS if available
       if (!RTSPid.equals("0")) {
