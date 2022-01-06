@@ -28,7 +28,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
   RtpHandler rtpHandler = null;
   // Channel errors
   private double lossRate = 0.0;
-  Random random = new Random(123456); // fixed seed for debugging
+//  Random random = new Random(123456); // fixed seed for debugging
+  Random random = new Random(); // for measuring packet loss
   int dropCounter; // Nr. of dropped media packets
 
   // GUI:
@@ -380,6 +381,9 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
     if (fec) label = " fec ";
     else label = " media ";
     // TASK correct the if-instruction to work properly
+//    delay
+//    ???
+//    Thread.sleep(100);
     if (random.nextDouble() > lossRate) {
       logger.log(Level.FINE, "Send frame: " + imagenb + label);
       RTPsocket.send(senddp);

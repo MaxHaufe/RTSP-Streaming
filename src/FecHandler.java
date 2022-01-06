@@ -131,7 +131,7 @@ public class FecHandler {
     // build fec from rtp
     fec = new FECpacket(rtp.getpacket(), rtp.getpacket().length);
     // TASK remove comment for debugging
-    // fec.printHeaders();
+     fec.printHeaders();
 
     // stores fec
     int seqNrFec = fec.getsequencenumber();
@@ -157,7 +157,18 @@ public class FecHandler {
    */
   public boolean checkCorrection(int nr, HashMap<Integer, RTPpacket> mediaPackets) {
     //TASK complete this method!
-    return false;
+
+    if (!fecStack.containsKey(fecNr.get(nr))){
+      return false;
+    }
+//    all involved media packet, one can be missing
+    List<Integer> involvedPackets = fecList.get(nr);
+    for (int involvedPacket : involvedPackets){
+      if (!mediaPackets.containsKey(involvedPacket) && involvedPacket != nr){
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -167,7 +178,15 @@ public class FecHandler {
    * @return RTP packet
    */
   public RTPpacket correctRtp(int nr, HashMap<Integer, RTPpacket> mediaPackets) {
-    //TASK complete this method!
+//    TASK complete this method!
+    this.fec = fecStack.get(fecNr.get(nr));
+
+    List<Integer> involvedPackets = fecList.get(nr);
+    for (int involvedPacket : involvedPackets){
+      if (involvedPacket != nr){
+        fec.addRtp(mediaPackets.get(involvedPacket));
+      }
+    }
     return fec.getLostRtp(nr);
   }
 
@@ -178,6 +197,7 @@ public class FecHandler {
    */
   private void clearStack(int nr) {
     //TASK complete this method!
+
   }
 
   // *************** Receiver Statistics ***********************************************************

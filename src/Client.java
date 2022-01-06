@@ -474,26 +474,29 @@ public class Client {
       pufferLabel.setText(
           "Puffer: "
               + ""  //
-              + " aktuelle Nr. / Summe empf.: "
+              + " aktuelle Nr. "
               + rs.latestSequenceNumber
-              + " / "
-              + rs.receivedPackets
-              + " Ratio: "
-              + rs.latestSequenceNumber/rs.receivedPackets);
+              + " / Summe empf.: "
+              + rs.receivedPackets);
       statsLabel.setText(
-          "<html>Abspielzähler / verlorene Medienpakete // Bilder / verloren: "
-              + ""
-              + " / "
-              + ""
+          "<html>Abspielzähler "
+              + rs.playbackIndex
+              + " / verlorene Medienpakete "
+              + rs.packetsLost
+              + " / Ratio: "
+              + df.format(((double)rs.packetsLost/rs.latestSequenceNumber)* 100) + " %"
+              + " / Bilder verloren: "
+              + rs.framesLost
               + "<p/>"
               + "</html>");
+
       fecLabel.setText(
-          "FEC: korrigiert / nicht korrigiert: "
+          "FEC: korrigiert "
               + rs.correctedPackets
-              + " / "
+              + " /  nicht korrigiert: "
               + rs.notCorrectedPackets
-              + "  Ratio: "
-              + ""); //rs.correctedPackets/rs.notCorrectedPackets
+              + " / Ratio: "
+              + df.format(((double)rs.notCorrectedPackets/rs.latestSequenceNumber)*100)+ " %") ; //rs.correctedPackets/rs.notCorrectedPackets
     }
   }
 
@@ -625,14 +628,6 @@ public class Client {
         //TASK Complete the Transport Attribute
         rtspReq += "Transport: RTP/UDP; client_port=" + RTP_RCV_PORT + CRLF;
       }
-//      // FIXME: idk this might be wrong
-//      else if (request_type.equals("DESCRIBE")) {
-//        RTSPBufferedWriter.write("Accept: application/sdp" + CRLF);
-//      }
-//      else {
-//        //otherwise, write the Session line from the RTSPid field
-//        RTSPBufferedWriter.write("Session: " + RTSPid + CRLF);
-//      }
 
       // SessionIS if available
       if (!RTSPid.equals("0")) {
