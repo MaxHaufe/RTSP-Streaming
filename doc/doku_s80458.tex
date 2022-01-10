@@ -35,14 +35,14 @@
     \begin{equation}
         \begin{aligned}
             P_{Rest}
-            & = \frac{ \sum_{i=2}^{n =k+1} \binom{n}{i} \cdot P^k \cdot (1-P)^{n-i} \cdot \frac{i \cdot k}{n}}
+            & = \frac{ \sum_{i=2}^{n =k+1} \binom{n}{i} \cdot P^i \cdot (1-P)^{n-i} \cdot \frac{i \cdot k}{n}}
             {k} \\
-            & = \sum_{i=2}^{n =k+1} \binom{n}{i} \cdot P^k \cdot (1-P)^{n-i} \cdot \frac{i}{n}\\
+            & = \sum_{i=2}^{n =k+1} \binom{n}{i} \cdot P^i \cdot (1-P)^{n-i} \cdot \frac{i}{n}\\
         \end{aligned}
     \end{equation}
 
     \noindent
-    Zum Plotting habe ich Pyhton benutzt.
+    Zum Plotting habe ich Python benutzt.
 
     \begin{lstlisting} [language=Python]
     def g(P, k):
